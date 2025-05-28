@@ -12,11 +12,18 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [user, setUser] = useState(null);
+  const [loginError, setLoginError] = useState(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error('Error parsing stored user data:', error);
+        localStorage.removeItem('user');
+      }
     }
   }, []);
 
@@ -54,23 +61,55 @@ const Login = () => {
 
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
+      setLoginError(null);
       console.log('Google Token:', credentialResponse.credential);
-      // Send this token to your backend to exchange for access token
+      
+      // Send token to backend
       const res = await axios.post('http://localhost:8000/api/auth/google', {
         token: credentialResponse.credential
       });
-      console.log("Backend Response", res.data);
       
-      // Store user data in localStorage
+      if (!res.data || !res.data.user) {
+        throw new Error('Invalid response from server');
+      }
+
       const userData = res.data.user;
-      console.log("Storing user data:", userData);
-      localStorage.setItem('user', JSON.stringify(userData));
-      setUser(userData);
-      
-      // After successful login, navigate to home
-      navigate('/');
+      console.log("Received user data structure:", {
+        name: userData.name,
+        email: userData.email,
+        picture: userData.picture,
+        fullData: userData
+      });
+
+      // Verify required fields
+      if (!userData.name || !userData.email || !userData.picture) {
+        console.error('Missing user data fields:', {
+          hasName: !!userData.name,
+          hasEmail: !!userData.email,
+          hasPicture: !!userData.picture
+        });
+        throw new Error('Missing required user data');
+      }
+
+      // Store user data in localStorage
+      try {
+        const userDataToStore = {
+          name: userData.name,
+          email: userData.email,
+          picture: userData.picture
+        };
+        console.log("Storing user data:", userDataToStore);
+        localStorage.setItem('user', JSON.stringify(userDataToStore));
+        console.log("Successfully stored user data in localStorage");
+        setUser(userDataToStore);
+        navigate('/');
+      } catch (storageError) {
+        console.error('Error storing user data:', storageError);
+        setLoginError('Failed to save login information');
+      }
     } catch (error) {
-      console.error('Error sending token to backend:', error.response?.data || error.message);
+      console.error('Login error:', error);
+      setLoginError(error.response?.data?.error || 'Login failed. Please try again.');
     }
   };
 
@@ -115,6 +154,12 @@ const Login = () => {
         <h1>Welcome Back</h1>
         <p className="subtitle">Please sign in to continue</p>
         
+        {loginError && (
+          <div className="error-message" style={{ color: 'red', marginBottom: '1rem', textAlign: 'center' }}>
+            {loginError}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="sign-in-form">
           <div className="form-group">
             <label htmlFor="email">Email</label>
@@ -165,7 +210,7 @@ const Login = () => {
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={() => {
-              console.log('Login Failed');
+              setLoginError('Google login failed. Please try again.');
             }}
             useOneTap
             theme="filled_blue"

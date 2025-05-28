@@ -17,6 +17,15 @@ const Header = () => {
       try {
         const parsedUser = JSON.parse(userData);
         console.log("Parsed user data:", parsedUser);
+        // Verify that the user object has the required properties
+        if (!parsedUser.picture) {
+          console.error("User data missing picture URL:", parsedUser);
+          setImageError(true);
+        } else {
+          console.log("User picture URL:", parsedUser.picture);
+          // Reset image error state when we have a valid picture URL
+          setImageError(false);
+        }
         setUser(parsedUser);
       } catch (error) {
         console.error("Error parsing user data:", error);
@@ -25,11 +34,10 @@ const Header = () => {
     }
   }, []);
 
-  // Add a debug render
-  console.log("Current user state:", user);
-
-  const handleImageError = () => {
-    console.log("Profile picture failed to load");
+  const handleImageError = (e) => {
+    console.log("Profile picture failed to load:", e);
+    console.log("Attempted to load image from:", user?.picture);
+    console.log("Current user state:", user);
     setImageError(true);
   };
 
@@ -42,6 +50,10 @@ const Header = () => {
     setUser(null);
     navigate('/login');
   };
+
+  // Debug render
+  console.log("Current user state:", user);
+  console.log("Image error state:", imageError);
 
   return (
     <header className="landing-header">
@@ -69,6 +81,8 @@ const Header = () => {
                   className="profile-picture"
                   onClick={() => setIsMenuOpen(!isMenuOpen)}
                   onError={handleImageError}
+                  crossOrigin="anonymous"
+                  referrerPolicy="no-referrer"
                 />
               )}
               {isMenuOpen && (
