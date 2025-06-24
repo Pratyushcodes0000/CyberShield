@@ -4,10 +4,11 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import Tools from './Tools.jsx';
 import LandingPage from './LandingPage.jsx';
 import FakeBussiness from './Tools/FakeBussiness.jsx';
-import EmailScanner from './Tools/EmailScanner.jsx';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Login from './Auth/Login.jsx'
+import Password from './Tools/PasswordChecker.jsx'
+import PublicWifiWarning from './Tools/PublicWifiWarning.jsx';
 
 const App = () => {
   return (
@@ -19,7 +20,8 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/fakeBussiness" element={<FakeBussiness />} />
-          <Route path="/EmailScanner" element={<EmailScanner />} />
+          <Route path="/PasswordChecker" element={<Password/>} />
+          <Route path="/publicWifiWarning" element={<PublicWifiWarning />} />
         </Routes>
         <Footer/>
       </Router>

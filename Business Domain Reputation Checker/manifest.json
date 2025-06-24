@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Domain Reputation Checker",
+    "version": "1.0",
+    "description": "Check the reputation of a domain using WHOIS and VirusTotal",
+    "permissions": ["storage"],
+    "host_permissions": ["https://www.virustotal.com/*", "https://www.whoisxmlapi.com/*"],
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "icon.png"
+    }
+  }
+  

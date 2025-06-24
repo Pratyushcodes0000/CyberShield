@@ -10,7 +10,8 @@ import {
   FaBuilding,
   FaTruck,
   FaRobot, 
-  FaExclamationTriangle 
+  FaExclamationTriangle, 
+  FaWifi
 } from 'react-icons/fa';
 
 const tools = [
@@ -44,16 +45,17 @@ const tools = [
   },
   {
     id: 3,
-    title: "Secure Supply Chain Verifier",
-    icon: <FaTruck className="tool-icon" />,
-    description: "Verifies if a vendor, supplier, or link in the supply chain is legitimate.",
+    title: "Fake News Identifier Tool",
+    icon: <FaExclamationTriangle className="tool-icon" />,
+    description: "Detects and flags potentially fake news articles or claims using AI heuristics.",
     features: [
-      "Vendor verification",
-      "Supply chain tracking",
-      "Risk assessment",
-      "Compliance checking"
+      "AI-powered news analysis",
+      "Suspicious phrase detection",
+      "Sensationalism scoring",
+      "Fact-checking suggestions"
     ],
-    color: "#2563eb"
+    color: "#f59e42",
+    link: 'fakeNewsIdentifier',
   },
   {
     id: 4,
@@ -82,18 +84,20 @@ const tools = [
     ],
     color: "#f59e0b"
   },
+
   {
     id: 6,
-    title: "Privacy Policy Analyzer",
-    icon: <FaSearch className="tool-icon" />,
-    description: "Use AI to analyze privacy policies and flag concerning practices.",
+    title: "Password Breach Checker",
+    icon: <FaLock className="tool-icon" />,
+    description: "Check if your password has been exposed in known data breaches using Have I Been Pwned API.",
     features: [
-      "Policy summarization",
-      "Risk identification",
-      "Compliance checking",
-      "Plain language translation"
+      "SHA-1 password hashing",
+      "Anonymous breach check",
+      "Real-time results",
+      "No password stored or sent"
     ],
-    color: "#f97316"
+    color: "#0ea5e9",
+    link: 'passwordChecker',
   }
 ];
 

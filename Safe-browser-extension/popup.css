@@ -1,0 +1,61 @@
+body {
+  width: 300px;
+  padding: 15px;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  text-align: center;
+}
+
+h1 {
+  color: #333;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+
+#status-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 15px 0;
+}
+
+#status-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+#status-text {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#url-display {
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  word-break: break-all;
+  font-size: 12px;
+}
+
+#details {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.safe {
+  background-color: #4CAF50;
+}
+
+.unsafe {
+  background-color: #f44336;
+}
+
+.checking {
+  background-color: #FFC107;
+}
